@@ -3,24 +3,99 @@ body {
     background-color: #0a0a1a;
     color: #e0e0ff;
     font-family: 'Courier New', monospace;
+    line-height: 1.6;
 }
 
-#main-content {
-    min-height: 70vh;
+/* Hero section di homepage */
+.hero {
+    text-align: center;
     padding: 2rem 0;
 }
 
-/* Style untuk navigasi */
-nav {
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #30305a;
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #a0e0ff;
+    text-shadow: 0 0 10px rgba(160, 224, 255, 0.5);
 }
 
-/* Style khusus untuk halaman level nanti */
-.neuro-container {
+.hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+}
+
+/* Grid layout untuk fitur */
+.grid {
+    margin: 2rem 0;
+}
+
+.grid article {
     background: rgba(20, 20, 40, 0.8);
     border: 1px solid #4545a0;
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.grid article:hover {
+    transform: translateY(-5px);
+    border-color: #6060ff;
+}
+
+/* Neuro-Sync button */
+button.contrast {
+    background: linear-gradient(45deg, #6060ff, #8040ff);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
     margin: 1rem 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.contrast:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(96, 96, 255, 0.7);
+}
+
+/* Footer */
+footer {
+    margin-top: 2rem;
+    opacity: 0.7;
+}
+
+/* Error container */
+.error-container {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 50, 50, 0.1);
+    border: 1px solid rgba(255, 50, 50, 0.5);
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
 }
