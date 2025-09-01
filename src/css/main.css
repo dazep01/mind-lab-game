@@ -1,0 +1,26 @@
+/* Style dasar untuk seluruh game */
+body {
+    background-color: #0a0a1a;
+    color: #e0e0ff;
+    font-family: 'Courier New', monospace;
+}
+
+#main-content {
+    min-height: 70vh;
+    padding: 2rem 0;
+}
+
+/* Style untuk navigasi */
+nav {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #30305a;
+}
+
+/* Style khusus untuk halaman level nanti */
+.neuro-container {
+    background: rgba(20, 20, 40, 0.8);
+    border: 1px solid #4545a0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+}
