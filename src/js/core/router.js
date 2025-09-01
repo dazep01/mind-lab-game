@@ -58,7 +58,6 @@ async loadPage(path) {
     // ======== Tambahkan ini =========
     // Pastikan fetch path kompatibel dengan hosting Github Pages
     const fetchPath = this.isGitHubPages ? this.basePath + route : route;
-    // =================================
 
     try {
         const response = await fetch(fetchPath); // gunakan fetchPath, bukan route
@@ -131,3 +130,4 @@ async loadPage(path) {
 document.addEventListener('DOMContentLoaded', () => {
     window.router = new Router();
 });
+
