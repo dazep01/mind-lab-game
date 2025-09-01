@@ -3,22 +3,24 @@
 class Router {
     constructor() {
         this.routes = {
-            '/': 'index.html',
-            '/level-1': 'levels/level-1.html',
-            '/level-2': 'levels/level-2.html',
-            '/level-3': 'levels/level-3.html',
-            '/level-4': 'levels/level-4.html',
-            '/level-5': 'levels/level-5.html',
-            '/level-6': 'levels/level-6.html',
-            '/level-7': 'levels/level-7.html',
-            '/paths/path-a': 'levels/paths/path-a.html',
-            '/paths/path-b': 'levels/paths/path-b.html',
-            '/paths/path-c': 'levels/paths/path-c.html',
-            '/epilogue': 'levels/epilogue.html'
+            '/': 'src/index.html',
+            '/level-1': 'src/levels/level-1.html',
+            '/level-2': 'src/levels/level-2.html',
+            '/level-3': 'src/levels/level-3.html',
+            '/level-4': 'src/levels/level-4.html',
+            '/level-5': 'src/levels/level-5.html',
+            '/level-6': 'src/levels/level-6.html',
+            '/level-7': 'src/levels/level-7.html',
+            '/paths/path-a': 'src/levels/paths/path-a.html',
+            '/paths/path-b': 'src/levels/paths/path-b.html',
+            '/paths/path-c': 'src/levels/paths/path-c.html',
+            '/epilogue': 'src/levels/epilogue.html'
         };
-        
+
+        // Deteksi environment
         this.isGitHubPages = window.location.hostname.includes('github.io');
-        this.basePath = this.isGitHubPages ? '/mind-lab-game/' : '/';
+        this.repositoryName = 'mind-lab-game'; // Ganti dengan nama repo Anda
+        this.basePath = this.isGitHubPages ? `/${this.repositoryName}/` : '/';
         
         this.init();
     }
@@ -36,45 +38,53 @@ class Router {
 
         // Handle tombol back/forward browser
         window.addEventListener('popstate', () => {
-            this.loadPage(window.location.pathname);
+            this.loadPage(this.getNormalizedPath(window.location.pathname));
         });
 
         // Load halaman saat pertama kali
-        this.loadPage(window.location.pathname);
+        this.loadPage(this.getNormalizedPath(window.location.pathname));
     }
 
     navigate(path) {
-        // Untuk GitHub Pages, kita perlu menangani base URL
-        const fullPath = this.isGitHubPages ? this.basePath + path.replace(/^\//, '') : path;
+        const fullPath = this.isGitHubPages ? 
+            `${this.basePath}${path.replace(/^\//, '')}` : 
+            path;
+            
         history.pushState({}, '', fullPath);
         this.loadPage(path);
     }
 
-async loadPage(path) {
-    // Normalisasi path untuk GitHub Pages
-    const normalizedPath = path.replace(this.basePath, '');
-    const route = this.routes[normalizedPath] || this.routes['/'];
-    
-    // ======== Tambahkan ini =========
-    // Pastikan fetch path kompatibel dengan hosting Github Pages
-    const fetchPath = this.isGitHubPages ? this.basePath + route : route;
+    async loadPage(path) {
+        // Normalisasi path
+        const normalizedPath = this.getNormalizedPath(path);
+        const route = this.routes[normalizedPath] || this.routes['/'];
+        
+        // Path untuk fetch
+        const fetchPath = this.isGitHubPages ? 
+            `${this.basePath}${route}` : 
+            route;
 
-    try {
-        const response = await fetch(fetchPath); // gunakan fetchPath, bukan route
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const html = await response.text();
-
-        const mainContent = document.getElementById('main-content');
-        if (mainContent) {
-            mainContent.innerHTML = html;
-            this.loadPageScript(normalizedPath);
-            window.scrollTo(0, 0);
+        try {
+            const response = await fetch(fetchPath);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+            const html = await response.text();
+            
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) {
+                mainContent.innerHTML = html;
+                
+                // Load script JS khusus untuk halaman tersebut jika ada
+                this.loadPageScript(normalizedPath);
+                
+                // Scroll ke atas setelah load halaman baru
+                window.scrollTo(0, 0);
+            }
+        } catch (error) {
+            console.error('Failed to load page:', error, fetchPath);
+            this.showErrorPage();
         }
-    } catch (error) {
-        console.error('Failed to load page:', error, fetchPath);
-        this.showErrorPage();
     }
-}
 
     loadPageScript(path) {
         // Hapus script sebelumnya jika ada
@@ -83,23 +93,27 @@ async loadPage(path) {
 
         // Map path ke file script yang sesuai
         const scriptMap = {
-            '/level-1': 'js/levels/level-1.js',
-            '/level-2': 'js/levels/level-2.js',
-            '/level-3': 'js/levels/level-3.js',
-            '/level-4': 'js/levels/level-4.js',
-            '/level-5': 'js/levels/level-5.js',
-            '/level-6': 'js/levels/level-6.js',
-            '/level-7': 'js/levels/level-7.js',
-            '/paths/path-a': 'js/levels/paths/path-a.js',
-            '/paths/path-b': 'js/levels/paths/path-b.js',
-            '/paths/path-c': 'js/levels/paths/path-c.js',
-            '/epilogue': 'js/levels/epilogue.js'
+            '/level-1': 'src/js/levels/level-1.js',
+            '/level-2': 'src/js/levels/level-2.js',
+            '/level-3': 'src/js/levels/level-3.js',
+            '/level-4': 'src/js/levels/level-4.js',
+            '/level-5': 'src/js/levels/level-5.js',
+            '/level-6': 'src/js/levels/level-6.js',
+            '/level-7': 'src/js/levels/level-7.js',
+            '/paths/path-a': 'src/js/levels/paths/path-a.js',
+            '/paths/path-b': 'src/js/levels/paths/path-b.js',
+            '/paths/path-c': 'src/js/levels/paths/path-c.js',
+            '/epilogue': 'src/js/levels/epilogue.js'
         };
 
         if (scriptMap[path]) {
+            const scriptPath = this.isGitHubPages ?
+                `${this.basePath}${scriptMap[path]}` :
+                scriptMap[path];
+                
             const script = document.createElement('script');
             script.id = 'page-script';
-            script.src = scriptMap[path];
+            script.src = scriptPath;
             document.body.appendChild(script);
         }
     }
@@ -117,17 +131,22 @@ async loadPage(path) {
         }
     }
 
-    // Helper untuk mendapatkan path relatif
-    getRelativePath() {
+    // Helper untuk normalisasi path
+    getNormalizedPath(path) {
         if (this.isGitHubPages) {
-            return window.location.pathname.replace(this.basePath, '');
+            // Hapus basePath dari path jika ada
+            return path.replace(this.basePath, '').replace(/^\//, '') || '/';
         }
-        return window.location.pathname;
+        return path || '/';
     }
 }
 
 // Inisialisasi router saat dokumen siap
 document.addEventListener('DOMContentLoaded', () => {
     window.router = new Router();
+    
+    // Debug info
+    console.log('Router initialized');
+    console.log('GitHub Pages mode:', window.router.isGitHubPages);
+    console.log('Base path:', window.router.basePath);
 });
-
