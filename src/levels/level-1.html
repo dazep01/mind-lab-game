@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 1: The Silent Cortex - MIND LAB</title>
+    <link rel="stylesheet" href="../css/levels/level-1.css">
+</head>
+<body>
+    <div class="level-container">
+        <header>
+            <h1>Level 1: The Silent Cortex</h1>
+            <p class="subtitle">Memasuki Pikiran Remaja yang Terjebak dalam Keheningan</p>
+        </header>
+
+        <div class="puzzle-area">
+            <div class="neuro-visualization">
+                <div class="brain-layer">
+                    <div class="node" id="node-1" data-sound="sound-A">🔇</div>
+                    <div class="node" id="node-2" data-sound="sound-B">🔇</div>
+                    <div class="node" id="node-3" data-sound="sound-C">🔇</div>
+                    <div class="node" id="node-4" data-sound="sound-D">🔇</div>
+                </div>
+                <div class="wave-container">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>Tugas Neuro-Sync:</h3>
+                <p>Dengarkan pola suara yang tersembunyi dan identifikasi urutan yang benar. Klik pada node untuk mengaktifkan suara.</p>
+                <div class="sequence-display">
+                    <span>Urutan yang telah dipilih:</span>
+                    <div id="sequence-output"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="play-sequence" class="neuro-button">Putar Urutan Contoh</button>
+                <button id="check-solution" class="neuro-button" disabled>Periksa Solusi</button>
+                <button id="reset-sequence" class="neuro-button secondary">Reset</button>
+            </div>
+        </div>
+
+        <div class="narrative">
+            <div class="dialogue">
+                <p>"Ada sesuatu di sini... suara yang tersembunyi di antara kebisingan. Dengarkan baik-baik."</p>
+            </div>
+        </div>
+
+        <div id="feedback-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Hasil Analisis</h3>
+                <p id="feedback-message"></p>
+                <button id="continue-btn" class="neuro-button">Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/levels/level-1.js"></script>
+</body>
+</html>
