@@ -50,33 +50,32 @@ class Router {
         this.loadPage(path);
     }
 
-    async loadPage(path) {
-        // Normalisasi path untuk menghandle GitHub Pages
-        const normalizedPath = path.replace(this.basePath, '');
-        const route = this.routes[normalizedPath] || this.routes['/'];
-        
-        try {
-            const response = await fetch(route);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
-            const html = await response.text();
-            
-            // Gunakan selector yang lebih spesifik untuk area konten
-            const mainContent = document.getElementById('main-content');
-            if (mainContent) {
-                mainContent.innerHTML = html;
-                
-                // Load script JS khusus untuk halaman tersebut jika ada
-                this.loadPageScript(normalizedPath);
-                
-                // Scroll ke atas setelah load halaman baru
-                window.scrollTo(0, 0);
-            }
-        } catch (error) {
-            console.error('Failed to load page:', error, route);
-            this.showErrorPage();
+async loadPage(path) {
+    // Normalisasi path untuk GitHub Pages
+    const normalizedPath = path.replace(this.basePath, '');
+    const route = this.routes[normalizedPath] || this.routes['/'];
+    
+    // ======== Tambahkan ini =========
+    // Pastikan fetch path kompatibel dengan hosting Github Pages
+    const fetchPath = this.isGitHubPages ? this.basePath + route : route;
+    // =================================
+
+    try {
+        const response = await fetch(fetchPath); // gunakan fetchPath, bukan route
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const html = await response.text();
+
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.innerHTML = html;
+            this.loadPageScript(normalizedPath);
+            window.scrollTo(0, 0);
         }
+    } catch (error) {
+        console.error('Failed to load page:', error, fetchPath);
+        this.showErrorPage();
     }
+}
 
     loadPageScript(path) {
         // Hapus script sebelumnya jika ada
