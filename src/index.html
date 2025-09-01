@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIND LAB: Echoes of Thought</title>
+    <meta name="description" content="Sebuah game teka-teki berbasis narasi interaktif untuk melatih kecerdasan kognitif">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/core/pico.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Preload untuk performa lebih baik -->
+    <link rel="preload" href="js/core/game-state.js" as="script">
+    <link rel="preload" href="js/core/router.js" as="script">
+</head>
+<body>
+    <main class="container">
+        <!-- Header dengan navigasi -->
+        <nav>
+            <ul>
+                <li><strong>MIND LAB</strong></li>
+            </ul>
+            <ul>
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/level-1" class="nav-link">Mulai</a></li>
+                <li><a href="#" id="load-game-btn" class="secondary">Load Game</a></li>
+            </ul>
+        </nav>
+
+        <!-- Area konten dinamis -->
+        <div id="main-content">
+            <section class="hero">
+                <h1>MIND LAB: Echoes of Thought</h1>
+                <p>Selamat datang dalam pengalaman <strong>Neuro-Sync</strong>, teknologi revolusioner yang memungkinkan Anda memasuki pikiran manusia dan memperbaiki gangguan kognitif.</p>
+                
+                <div class="grid">
+                    <article>
+                        <h4>🧠 Latih IQ Logika</h4>
+                        <p>Pecahkan teka-teki berbasis silogisme dan logika formal.</p>
+                    </article>
+                    <article>
+                        <h4>💡 Kembangkan Kreativitas</h4>
+                        <p>Temukan solusi non-linear dalam puzzle yang dinamis.</p>
+                    </article>
+                    <article>
+                        <h4>❤️ Asah Empati Kognitif</h4>
+                        <p>Pahami perspektif berbeda dalam konflik moral.</p>
+                    </article>
+                </div>
+                
+                <button class="contrast" onclick="window.router.navigate('/level-1')">Aktifkan Neuro-Sync</button>
+                
+                <footer>
+                    <small>Progres otomatis tersimpan di browser Anda. Tekan "Load Game" untuk melanjutkan sesi sebelumnya.</small>
+                </footer>
+            </section>
+        </div>
+    </main>
+
+    <!-- Load core scripts -->
+    <script src="js/core/game-state.js"></script>
+    <script src="js/core/router.js"></script>
+    
+    <script>
+        // Load game state saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.gameState.loadGame()) {
+                document.getElementById('load-game-btn').style.display = 'block';
+            }
+            
+            // Event listener untuk load game
+            document.getElementById('load-game-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (window.gameState && window.gameState.currentLevel) {
+                    window.router.navigate('/' + window.gameState.currentLevel);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
