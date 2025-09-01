@@ -18,7 +18,7 @@ class Router {
         };
         this.init();
     }
-
+    
     init() {
         // Handle klik pada link yang menggunakan class "nav-link"
         document.body.addEventListener('click', (e) => {
@@ -67,12 +67,20 @@ class Router {
         const oldScript = document.getElementById('page-script');
         if (oldScript) oldScript.remove();
 
-        const scriptMap = {
-            '/level-1': 'js/levels/level-1.js',
-            '/level-2': 'js/levels/level-2.js',
-            // ... tambahkan mapping untuk level lainnya
-        };
-
+const scriptMap = {
+    '/level-1': 'js/levels/level-1.js',
+    '/level-2': 'js/levels/level-2.js',
+    '/level-3': 'js/levels/level-3.js',
+    '/level-4': 'js/levels/level-4.js',
+    '/level-5': 'js/levels/level-5.js',
+    '/level-6': 'js/levels/level-6.js',
+    '/level-7': 'js/levels/level-7.js',
+    '/paths/path-a': 'js/levels/paths/path-a.js',
+    '/paths/path-b': 'js/levels/paths/path-b.js',
+    '/paths/path-c': 'js/levels/paths/path-c.js',
+    '/epilogue': 'js/levels/epilogue.js'
+};
+        
         if (scriptMap[path]) {
             const script = document.createElement('script');
             script.id = 'page-script';
@@ -104,3 +112,4 @@ class Router {
 document.addEventListener('DOMContentLoaded', () => {
     window.router = new Router();
 });
+
