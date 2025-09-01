@@ -59,7 +59,7 @@ class Router {
         const normalizedPath = this.getNormalizedPath(path);
         const route = this.routes[normalizedPath] || this.routes['/'];
         
-        // Path untuk fetch
+        // Path untuk fetch - tambahkan basePath untuk GitHub Pages
         const fetchPath = this.isGitHubPages ? 
             `${this.basePath}${route}` : 
             route;
@@ -91,7 +91,7 @@ class Router {
         const oldScript = document.getElementById('page-script');
         if (oldScript) oldScript.remove();
 
-        // Map path ke file script yang sesuai
+        // Map path ke file script yang sesuai (dengan path src/)
         const scriptMap = {
             '/level-1': 'src/js/levels/level-1.js',
             '/level-2': 'src/js/levels/level-2.js',
@@ -149,4 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Router initialized');
     console.log('GitHub Pages mode:', window.router.isGitHubPages);
     console.log('Base path:', window.router.basePath);
+    console.log('Current path:', window.location.pathname);
 });
